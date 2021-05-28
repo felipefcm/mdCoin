@@ -3,7 +3,7 @@ import Block from "./block";
 
 export class Blockchain {
 
-	private difficulty = 4;
+	private difficulty;
 
 	private chain: Block[] = [
 		this.createGenesisBlock()

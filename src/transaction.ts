@@ -1,5 +1,5 @@
 
-import sha1 from 'crypto-js/sha1';
+import sha256 from 'crypto-js/sha256';
 
 export interface TransactionItem {
 	address: string;
@@ -25,7 +25,7 @@ export class Transaction {
 	}
 
 	getId() {
-		return sha1(sha1(
+		return sha256(sha256(
 			[ ...this.inputs, ...this.outputs ].map(i => i.address).join()
 		)).toString();
 	}

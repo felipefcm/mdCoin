@@ -1,5 +1,5 @@
 
-import sha1 from 'crypto-js/sha1';
+import sha256 from 'crypto-js/sha256';
 
 import { Transaction } from "./transaction";
 
@@ -34,7 +34,7 @@ class Block {
 			`${this.txns.map(txn => txn.getId()).join()}` +
 			`${this.nonce}`;
 
-		return sha1(sha1(hashInput)).toString();
+		return sha256(sha256(hashInput)).toString();
 	}
 }
 

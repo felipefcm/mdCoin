@@ -2,7 +2,7 @@
 import Block from "./block";
 import { Blockchain } from "./blockchain";
 
-const blockchain = new Blockchain(6);
+const blockchain = new Blockchain(4);
 
 let blocksMined = 0;
 while(blocksMined < 25) {
