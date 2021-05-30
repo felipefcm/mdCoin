@@ -1,5 +1,6 @@
 
 import sha256 from 'crypto-js/sha256';
+import { Locking } from './locking';
 
 export interface Input {
 	outputRef: string,
@@ -9,6 +10,7 @@ export interface Input {
 export interface Output {
 	address: string,
 	amount: number,
+	lockingScript: Locking,
 }
 
 export class Transaction {

@@ -2,11 +2,19 @@
 import sha256 from 'crypto-js/sha256';
 import ripemd160 from 'crypto-js/ripemd160';
 
+export const OpCodes = {
+	OP_DUP: 0x02,
+	OP_HASH160: 0x03,
+	OP_VERIFY: 0x04,
+	OP_EQUAL: 0x05,
+	OP_CHECKSIG: 0x06,
+};
+
 export class Locking {
 
 	private stack: string[] = [];
 
-	success() {
+	verify() {
 		return this.stack.length === 1 && this.stack[0] === '1';
 	}
 
