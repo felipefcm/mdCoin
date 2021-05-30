@@ -1,32 +1,53 @@
 
 import sha256 from 'crypto-js/sha256';
 
-export interface TransactionItem {
-	address: string;
-	amount: number;
+export interface Input {
+	outputRef: string,
+	signature: string,
+}
+
+export interface Output {
+	address: string,
+	amount: number,
 }
 
 export class Transaction {
 	
-	inputs: TransactionItem[];
-	outputs: TransactionItem[];
+	private id: string;
+	private blockHeight: number;
 
-	constructor(inputs: TransactionItem[] = [], outputs: TransactionItem[] = []) {
+	private inputs: Input[];
+	private outputs: Output[];
+
+	constructor(blockHeight: number, inputs: Input[] = [], outputs: Output[] = []) {
+		
 		this.inputs = inputs;
 		this.outputs = outputs;
+		this.blockHeight = blockHeight;
+		
+		this.id = '';
+		this.calculateId();
 	}
 
-	addInput(input: TransactionItem) {
+	addInput(input: Input) {
 		this.inputs.push(input);
+		this.calculateId();
 	}
 
-	addOutput(output: TransactionItem) {
+	addOutput(output: Output) {
 		this.outputs.push(output);
+		this.calculateId();
 	}
 
 	getId() {
-		return sha256(sha256(
-			[ ...this.inputs, ...this.outputs ].map(i => i.address).join()
+		return this.id;
+	}
+
+	private calculateId() {
+		this.id = sha256(sha256(
+			`${this.blockHeight}` +
+			this.inputs.map(i => `${i.outputRef}|${i.signature}`).join() +
+			this.outputs.map(o => `${o.address}|${o.amount}`).join()
 		)).toString();
 	}
 }

@@ -1,13 +1,19 @@
 
 import Block from "./block";
 import { Blockchain } from "./blockchain";
+import { Transaction, Input, Output } from "./transaction";
+import Wallet from "./wallet";
 
-const blockchain = new Blockchain(4);
+const minerWallet = Wallet.create();
+const blockchain = new Blockchain(5);
 
 let blocksMined = 0;
-while(blocksMined < 25) {
+while(blocksMined < 10) {
 
 	const lastBlock = blockchain.getLastBlock();
+
+	const rewardTransaction = new Transaction(lastBlock.height + 1);
+	rewardTransaction.addOutput({ address: minerWallet.getAddress(), amount: 10 });
 	
 	let nonce = 0;
 	let block: Block;
@@ -15,9 +21,9 @@ while(blocksMined < 25) {
 	do {
 
 		block = new Block(
-			lastBlock.height + 1, 
-			lastBlock.hash, 
-			[],
+			lastBlock.height + 1,
+			lastBlock.hash,
+			[ rewardTransaction	],
 			nonce++
 		);
 	}

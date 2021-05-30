@@ -2,8 +2,8 @@
 import { ec as EC } from 'elliptic';
 import ec from './util/ec';
 
-import ripemd160 from 'crypto-js/ripemd160';
 import sha256 from 'crypto-js/sha256';
+import ripemd160 from 'crypto-js/ripemd160';
 
 import base58 from './util/base58';
 
