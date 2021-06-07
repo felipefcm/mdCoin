@@ -1,7 +1,8 @@
 
 import Block from "./block";
 import { Blockchain } from "./blockchain";
-import { Transaction, Input, Output } from "./transaction";
+import { P2PKH } from "./locking";
+import { Transaction } from "./transaction";
 import Wallet from "./wallet";
 
 const minerWallet = Wallet.create();
@@ -13,7 +14,11 @@ while(blocksMined < 10) {
 	const lastBlock = blockchain.getLastBlock();
 
 	const rewardTransaction = new Transaction(lastBlock.height + 1);
-	rewardTransaction.addOutput({ address: minerWallet.getAddress(), amount: 10 });
+	rewardTransaction.addOutput({ 
+		address: minerWallet.getAddress(), 
+		amount: 10,
+		lockingScript: P2PKH(minerWallet.getPublicKeyHash())
+	});
 	
 	let nonce = 0;
 	let block: Block;

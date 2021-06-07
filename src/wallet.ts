@@ -9,7 +9,7 @@ import base58 from './util/base58';
 
 class Wallet {
 
-	static readonly prefix = 'MD';
+	static readonly prefix = 'M';
 
 	private keyPair: EC.KeyPair;
 
@@ -31,13 +31,17 @@ class Wallet {
 		return Buffer.from(hexSignature, 'hex').toString('base64');
 	}
 
-	getPublicKeyHash() {
-		const publicHex = this.keyPair.getPublic('hex');
+	getPublicKey() {
+		return this.keyPair.getPublic().encodeCompressed('hex');
+	}
+
+	getPublicKeyHash() { // also known as `hash160`
+		const publicHex = this.getPublicKey();
 		return ripemd160(sha256(publicHex)).toString();
 	}
 
-	private checksum(hash: string) {
-		return sha256(sha256(hash)).toString().slice(0, 8);
+	private checksum(pubKeyHash: string) {
+		return sha256(sha256(pubKeyHash)).toString().slice(0, 8);
 	}
 
 	getAddress() {
